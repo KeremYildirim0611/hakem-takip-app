@@ -1,0 +1,122 @@
+import { useState, useEffect } from 'react';
+import { initialMatches } from '../Interfaces/mockData';
+import AddMatchForm from '../Components/AddMatchForm';
+import MatchCard from '../Components/MatchCard';
+
+function HomePage() {
+  const [matches, setMatches] = useState(() => {
+    const savedMatches = localStorage.getItem('hakemAppMatches');
+    return savedMatches ? JSON.parse(savedMatches) : initialMatches;
+  });
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('Tümü');
+
+  useEffect(() => {
+    localStorage.setItem('hakemAppMatches', JSON.stringify(matches));
+  }, [matches]);
+
+  const handleAddMatch = (newMatch) => {
+    setMatches([newMatch, ...matches]);
+  };
+
+  const handleDeleteMatch = (id) => {
+    setMatches(matches.filter(match => match.id !== id));
+  };
+
+  const handleUpdateMatch = (id, updatedMatch) => {
+    setMatches(matches.map(match => match.id === id ? updatedMatch : match));
+  };
+
+  // --- HESAPLAMALAR ---
+  const totalMatches = matches.length;
+  const playedMatches = matches.filter(m => m.status === 'Oynandı');
+  const playedCount = playedMatches.length;
+  const pendingCount = matches.filter(m => m.status === 'Bekliyor').length;
+
+  // YENİ: Ayrı Ayrı Kart Ortalamaları
+  const totalYellows = playedMatches.reduce((sum, m) => sum + (Number(m.yellowCards) || 0), 0);
+  const totalReds = playedMatches.reduce((sum, m) => sum + (Number(m.redCards) || 0), 0);
+  
+  const yellowAverage = playedCount > 0 ? (totalYellows / playedCount).toFixed(1) : "0.0";
+  const redAverage = playedCount > 0 ? (totalReds / playedCount).toFixed(1) : "0.0";
+
+  const filteredMatches = matches.filter(match => {
+    const matchesSearch = match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'Tümü' || match.status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  return (
+    <div className="max-w-6xl mx-auto p-5 py-10">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8 uppercase tracking-wide">
+        Hakem Maç Ajandası ⚽
+      </h1>
+
+      {/* GÜNCELLENEN 5'Lİ İSTATİSTİK PANELİ */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8 text-center">
+        <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-blue-500">
+          <p className="text-xs text-gray-500 font-bold uppercase">Toplam Maç</p>
+          <p className="text-3xl font-extrabold text-blue-600 mt-2">{totalMatches}</p>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-green-500">
+          <p className="text-xs text-gray-500 font-bold uppercase">Yönetilen</p>
+          <p className="text-3xl font-extrabold text-green-600 mt-2">{playedCount}</p>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-yellow-500">
+          <p className="text-xs text-gray-500 font-bold uppercase">Bekleyen</p>
+          <p className="text-3xl font-extrabold text-yellow-500 mt-2">{pendingCount}</p>
+        </div>
+        {/* AYRI SARI KART ORTALAMASI */}
+        <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-amber-400">
+          <p className="text-xs text-gray-500 font-bold uppercase">Sarı Kart Ort.</p>
+          <p className="text-3xl font-extrabold text-amber-500 mt-2">{yellowAverage}</p>
+        </div>
+        {/* AYRI KIRMIZI KART ORTALAMASI */}
+        <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-red-600">
+          <p className="text-xs text-gray-500 font-bold uppercase">Kırmızı Ort.</p>
+          <p className="text-3xl font-extrabold text-red-600 mt-2">{redAverage}</p>
+        </div>
+      </div>
+      
+      <AddMatchForm onAdd={handleAddMatch} />
+
+      <div className="bg-white p-4 rounded-lg shadow-md mb-6 flex flex-col sm:flex-row gap-4 border-l-4 border-purple-500">
+        <input 
+          type="text" 
+          placeholder="Takım Ara..." 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-1 border border-gray-300 p-2 rounded focus:ring-2 focus:ring-purple-400 outline-none"
+        />
+        <select 
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="border border-gray-300 p-2 rounded focus:ring-2 focus:ring-purple-400 outline-none"
+        >
+          <option value="Tümü">Tüm Maçlar</option>
+          <option value="Bekliyor">Bekleyenler</option>
+          <option value="Oynandı">Oynananlar</option>
+        </select>
+      </div>
+      
+      <div className="space-y-4">
+        {filteredMatches.length > 0 ? (
+          filteredMatches.map((match) => (
+            <MatchCard 
+              key={match.id} 
+              match={match} 
+              onDelete={handleDeleteMatch}
+              onUpdate={handleUpdateMatch}
+            />
+          ))
+        ) : (
+          <p className="text-center text-gray-500 py-4">Maç bulunamadı.</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default HomePage;
