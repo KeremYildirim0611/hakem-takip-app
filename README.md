@@ -2,7 +2,7 @@
 
 Hakemlerin maç görevlerini, saha içi istatistiklerini ve gözlemci değerlendirmelerini profesyonel bir arayüzle takip edebilmeleri için geliştirilmiş modern bir web uygulamasıdır. 
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b1a62bf0-a29d-4e96-a197-21eddf96de6a/deploy-status)](https://hakem-ajandasi-pro.netlify.app/)
+[![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)](https://hakem-ajandasi-pro.netlify.app/)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
