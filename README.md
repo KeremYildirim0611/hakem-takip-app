@@ -48,3 +48,11 @@ Projeyi kendi bilgisayarınızda çalıştırmak isterseniz aşağıdaki adımla
 1. Projeyi bilgisayarınıza klonlayın:
    ```bash
    git clone [https://github.com/KeremYildirim0611/hakem-takip-app.git](https://github.com/KeremYildirim0611/hakem-takip-app.git)
+
+---
+
+## 👨‍💻 Geliştirici Notu
+
+Bu proje, bir Bilgisayar Mühendisliği öğrencisi ve aktif bir futbol hakemi olarak, sahadaki pratik ihtiyaçları yazılım çözümleriyle buluşturmak amacıyla geliştirilmiştir. Hem modern web geliştirme (React & Tailwind) yeteneklerini pekiştirmek hem de "domain-specific" (alana özgü) bir ihtiyacı karşılamak temel hedeftir.
+
+**Geliştirici:** Kerem Yıldırım   
