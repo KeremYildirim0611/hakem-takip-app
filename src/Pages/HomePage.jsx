@@ -17,7 +17,9 @@ function HomePage() {
   }, [matches]);
 
   const handleAddMatch = (newMatch) => {
-    setMatches([newMatch, ...matches]);
+    // YENİ: Formdan gelen maça default 8.4 gözlemci notu ekliyoruz
+    const matchWithObserverPoint = { ...newMatch, observerPoint: 8.4 };
+    setMatches([matchWithObserverPoint, ...matches]);
   };
 
   const handleDeleteMatch = (id) => {
@@ -25,6 +27,7 @@ function HomePage() {
   };
 
   const handleUpdateMatch = (id, updatedMatch) => {
+    // MatchCard'dan gelen güncellenmiş veriyi (yeni gözlemci notu dahil) state'e yazıyoruz
     setMatches(matches.map(match => match.id === id ? updatedMatch : match));
   };
 
@@ -33,12 +36,13 @@ function HomePage() {
   const playedMatches = matches.filter(m => m.status === 'Oynandı');
   const playedCount = playedMatches.length;
   const pendingCount = matches.filter(m => m.status === 'Bekliyor').length;
-  // Gözlemci Not Ortalaması Hesaplama
+  
+  // Gözlemci Not Ortalaması Hesaplama (Dinamik)
   const observerAvg = playedMatches.length > 0 
     ? (playedMatches.reduce((acc, m) => acc + (Number(m.observerPoint) || 8.4), 0) / playedMatches.length).toFixed(2)
-    : "0.0";
+    : "0.00";
 
-  // YENİ: Ayrı Ayrı Kart Ortalamaları
+  // Ayrı Ayrı Kart Ortalamaları
   const totalYellows = playedMatches.reduce((sum, m) => sum + (Number(m.yellowCards) || 0), 0);
   const totalReds = playedMatches.reduce((sum, m) => sum + (Number(m.redCards) || 0), 0);
   
@@ -58,8 +62,8 @@ function HomePage() {
         Hakem Maç Ajandası ⚽
       </h1>
 
-      {/* GÜNCELLENEN 5'Lİ İSTATİSTİK PANELİ */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8 text-center">
+      {/* 6'LI İSTATİSTİK PANELİ */}
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8 text-center">
         <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-blue-500">
           <p className="text-xs text-gray-500 font-bold uppercase">Toplam Maç</p>
           <p className="text-3xl font-extrabold text-blue-600 mt-2">{totalMatches}</p>
@@ -82,9 +86,10 @@ function HomePage() {
           <p className="text-xs text-gray-500 font-bold uppercase">Kırmızı Ort.</p>
           <p className="text-3xl font-extrabold text-red-600 mt-2">{redAverage}</p>
         </div>
+        {/* GÖZLEMCİ NOTU ORTALAMASI */}
         <div className="bg-white p-4 rounded-xl shadow-sm border-b-4 border-purple-500 text-center">
           <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Gözlemci Ort.</p>
-          <p className="text-2xl font-bold text-purple-600">{observerAvg}</p>
+          <p className="text-3xl font-extrabold text-purple-600 mt-2">{observerAvg}</p>
         </div>
       </div>
       
@@ -123,6 +128,7 @@ function HomePage() {
           <p className="text-center text-gray-500 py-4">Maç bulunamadı.</p>
         )}
       </div>
+
       {/* Sayfa Altı (Footer) Bilgi Bölümü */}
       <footer className="mt-16 pb-10 text-center space-y-2">
         <div className="flex items-center justify-center gap-4 text-gray-500 text-sm">
