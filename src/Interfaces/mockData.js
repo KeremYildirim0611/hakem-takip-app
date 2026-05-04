@@ -9,7 +9,8 @@ export const initialMatches = [
     score: "2-1",
     notes: "Zorlu bir maçtı, son dakikada penaltı verildi.",
     yellowCards: 4,
-    redCards: 0
+    redCards: 0,
+    observerPoint: 8.4
   },
   {
     id: 2,
@@ -21,7 +22,8 @@ export const initialMatches = [
     score: "1-1",
     notes: "Kulübe yönetimi zordu. Ev sahibi takım yöneticisi ihraç edildi.",
     yellowCards: 6,
-    redCards: 1
+    redCards: 1,
+    observerPoint: 8.4
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ export const initialMatches = [
     score: "",
     notes: "",
     yellowCards: 0,
-    redCards: 0
+    redCards: 0,
+    observerPoint: 8.4
   },
   {
     id: 4,
@@ -45,6 +48,7 @@ export const initialMatches = [
     score: "",
     notes: "",
     yellowCards: 0,
-    redCards: 0
+    redCards: 0,
+    observerPoint: 8.4
   }
 ];

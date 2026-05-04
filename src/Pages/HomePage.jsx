@@ -33,6 +33,10 @@ function HomePage() {
   const playedMatches = matches.filter(m => m.status === 'Oynandı');
   const playedCount = playedMatches.length;
   const pendingCount = matches.filter(m => m.status === 'Bekliyor').length;
+  // Gözlemci Not Ortalaması Hesaplama
+  const observerAvg = playedMatches.length > 0 
+    ? (playedMatches.reduce((acc, m) => acc + (Number(m.observerPoint) || 8.4), 0) / playedMatches.length).toFixed(2)
+    : "0.0";
 
   // YENİ: Ayrı Ayrı Kart Ortalamaları
   const totalYellows = playedMatches.reduce((sum, m) => sum + (Number(m.yellowCards) || 0), 0);
@@ -77,6 +81,10 @@ function HomePage() {
         <div className="bg-white p-4 rounded-lg shadow-md border-b-4 border-red-600">
           <p className="text-xs text-gray-500 font-bold uppercase">Kırmızı Ort.</p>
           <p className="text-3xl font-extrabold text-red-600 mt-2">{redAverage}</p>
+        </div>
+        <div className="bg-white p-4 rounded-xl shadow-sm border-b-4 border-purple-500 text-center">
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Gözlemci Ort.</p>
+          <p className="text-2xl font-bold text-purple-600">{observerAvg}</p>
         </div>
       </div>
       

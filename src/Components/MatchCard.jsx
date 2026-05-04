@@ -121,7 +121,14 @@ function MatchCard({ match, onDelete, onUpdate }) {
               </button>
             </div>
           </div>
-        </div>
+          <div className="flex flex-col items-end">
+          <span className="text-2xl font-bold text-gray-800">{match.score || "- -"}</span>
+            {/* Gözlemci Notu Rozeti */}
+              <div className="mt-2 flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded-md border border-blue-100 text-xs font-semibold">
+                ⭐ Gözlemci Notu: {match.observerPoint || 8.4}
+              </div>
+            </div>
+          </div>
       )}
     </div>
   );
