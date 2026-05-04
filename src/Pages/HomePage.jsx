@@ -115,6 +115,24 @@ function HomePage() {
           <p className="text-center text-gray-500 py-4">Maç bulunamadı.</p>
         )}
       </div>
+      {/* Sayfa Altı (Footer) Bilgi Bölümü */}
+      <footer className="mt-16 pb-10 text-center space-y-2">
+        <div className="flex items-center justify-center gap-4 text-gray-500 text-sm">
+          <span className="flex items-center gap-1">
+            📦 Veriler LocalStorage'da saklanır
+          </span>
+          <span className="text-gray-300">|</span>
+          <span className="flex items-center gap-1">
+            ⚽ Hakem Gözlemci Raporu Sistemi
+          </span>
+        </div>
+        <div className="text-gray-400 text-xs tracking-widest uppercase">
+          React + Vite + Tailwind CSS | Netlify'da Deploy Edildi
+        </div>
+        <div className="text-blue-500 font-medium text-sm pt-2">
+          © 2026 Kerem Yıldırım - Bilgisayar Mühendisliği Projesi
+        </div>
+      </footer>
     </div>
   );
 }
