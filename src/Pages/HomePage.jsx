@@ -49,12 +49,15 @@ function HomePage() {
   const yellowAverage = playedCount > 0 ? (totalYellows / playedCount).toFixed(1) : "0.0";
   const redAverage = playedCount > 0 ? (totalReds / playedCount).toFixed(1) : "0.0";
 
-  const filteredMatches = matches.filter(match => {
-    const matchesSearch = match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === 'Tümü' || match.status === filterStatus;
-    return matchesSearch && matchesStatus;
-  });
+// Filtreleme ve YENİ: Tarihe Göre Sıralama
+  const filteredMatches = matches
+    .filter(match => {
+      const matchesSearch = match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus === 'Tümü' || match.status === filterStatus;
+      return matchesSearch && matchesStatus;
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); 
 
   return (
     <div className="max-w-6xl mx-auto p-5 py-10">

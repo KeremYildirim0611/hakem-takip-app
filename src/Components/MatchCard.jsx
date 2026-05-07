@@ -31,9 +31,13 @@ function MatchCard({ match, onDelete, onUpdate }) {
     <div className="bg-white p-5 rounded-lg shadow-md border-l-4 border-green-500 hover:shadow-lg transition-all">
       {isEditing ? (
         /* DÜZENLEME MODU (Form Alanı) */
-        <div className="space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+        <div className="space-y-4">
+          
+          {/* TEK BİR ANA GRİD: Orta hakemse 4 eşit parça, değilse skor geniş kalır */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            
+            {/* Maç Skoru (Orta Hakem değilse 3 kolonluk yer kaplar, Orta Hakemse 1 kolon) */}
+            <div className={`col-span-2 ${match.role === 'Orta Hakem' ? 'md:col-span-1' : 'md:col-span-3'}`}>
               <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Maç Skoru</label>
               <input 
                 type="text" 
@@ -44,39 +48,44 @@ function MatchCard({ match, onDelete, onUpdate }) {
               />
             </div>
             
-            {/* Kart Sayısı ve Gözlemci Notu Giriş Alanları */}
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <label className="block text-xs font-bold text-yellow-600 uppercase mb-1">Sarı Kart</label>
-                <input 
-                  type="number" 
-                  value={yellowCards} 
-                  onChange={(e) => setYellowCards(e.target.value)} 
-                  className="w-full border border-gray-300 rounded shadow-sm p-2 focus:ring-yellow-500 outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-red-600 uppercase mb-1">Kırmızı Kart</label>
-                <input 
-                  type="number" 
-                  value={redCards} 
-                  onChange={(e) => setRedCards(e.target.value)} 
-                  className="w-full border border-gray-300 rounded shadow-sm p-2 focus:ring-red-500 outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-blue-600 uppercase mb-1">Gözlemci Notu</label>
-                <input 
-                  type="number" 
-                  step="0.1"
-                  value={observerPoint} 
-                  onChange={(e) => setObserverPoint(e.target.value)} 
-                  className="w-full border border-blue-300 rounded shadow-sm p-2 bg-blue-50 focus:ring-blue-500 outline-none font-bold"
-                />
-              </div>
+            {/* KOŞULLU RENDER: Sadece Orta Hakem ise kartlar görünür */}
+            {match.role === 'Orta Hakem' && (
+              <>
+                <div className="col-span-1">
+                  <label className="block text-[10px] sm:text-xs font-bold text-yellow-600 uppercase mb-1 truncate">Sarı Kart</label>
+                  <input 
+                    type="number" 
+                    value={yellowCards} 
+                    onChange={(e) => setYellowCards(e.target.value)} 
+                    className="w-full border border-gray-300 rounded shadow-sm p-2 focus:ring-yellow-500 outline-none"
+                  />
+                </div>
+                <div className="col-span-1">
+                  <label className="block text-[10px] sm:text-xs font-bold text-red-600 uppercase mb-1 truncate">Kır. Kart</label>
+                  <input 
+                    type="number" 
+                    value={redCards} 
+                    onChange={(e) => setRedCards(e.target.value)} 
+                    className="w-full border border-gray-300 rounded shadow-sm p-2 focus:ring-red-500 outline-none"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Gözlemci Notu (Her zaman görünür) */}
+            <div className="col-span-2 md:col-span-1">
+              <label className="block text-[10px] sm:text-xs font-bold text-blue-600 uppercase mb-1 truncate">Gözlemci Notu</label>
+              <input 
+                type="number" 
+                step="0.1"
+                value={observerPoint} 
+                onChange={(e) => setObserverPoint(e.target.value)} 
+                className="w-full border border-blue-300 rounded shadow-sm p-2 bg-blue-50 focus:ring-blue-500 outline-none font-bold text-center"
+              />
             </div>
           </div>
 
+          {/* Notlar Kısmı */}
           <div>
             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Hakem Notları</label>
             <textarea 
@@ -103,7 +112,8 @@ function MatchCard({ match, onDelete, onUpdate }) {
               {match.homeTeam} <span className="text-gray-400">vs</span> {match.awayTeam}
             </h2>
             
-            {match.status === 'Oynandı' && (
+            {/* Oynandı ve Orta Hakem olma şartı */}
+            {match.status === 'Oynandı' && match.role === 'Orta Hakem' && (
                <div className="flex space-x-3 mt-1">
                  <span className="text-xs font-bold text-yellow-600">🟨 {match.yellowCards || 0} Sarı</span>
                  <span className="text-xs font-bold text-red-600">🟥 {match.redCards || 0} Kırmızı</span>
