@@ -17,7 +17,7 @@ function HomePage() {
   }, [matches]);
 
   const handleAddMatch = (newMatch) => {
-    // YENİ: Formdan gelen maça default 8.4 gözlemci notu ekliyoruz
+    // Formdan gelen maça default 8.4 gözlemci notu ekliyoruz
     const matchWithObserverPoint = { ...newMatch, observerPoint: 8.4 };
     setMatches([matchWithObserverPoint, ...matches]);
   };
@@ -49,7 +49,7 @@ function HomePage() {
   const yellowAverage = playedCount > 0 ? (totalYellows / playedCount).toFixed(1) : "0.0";
   const redAverage = playedCount > 0 ? (totalReds / playedCount).toFixed(1) : "0.0";
 
-// Filtreleme ve YENİ: Tarihe Göre Sıralama
+// Filtreleme ve Tarihe Göre Sıralama
   const filteredMatches = matches
     .filter(match => {
       const matchesSearch = match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) || 

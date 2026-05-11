@@ -4,13 +4,13 @@ function MatchCard({ match, onDelete, onUpdate }) {
   // Düzenleme modunda olup olmadığımızı tutan durum
   const [isEditing, setIsEditing] = useState(false);
   
-  // Güncellenecek verileri tutan durumlar (Senin yapın)
+  // Güncellenecek verileri tutan durumlar 
   const [score, setScore] = useState(match.score || '');
   const [notes, setNotes] = useState(match.notes || '');
   const [yellowCards, setYellowCards] = useState(match.yellowCards || 0);
   const [redCards, setRedCards] = useState(match.redCards || 0);
   
-  // YENİ: Gözlemci notunu tutan state
+  // Gözlemci notunu tutan state
   const [observerPoint, setObserverPoint] = useState(match.observerPoint || 8.4);
 
   // Kaydet butonuna basıldığında çalışacak fonksiyon
@@ -133,7 +133,7 @@ function MatchCard({ match, onDelete, onUpdate }) {
             </span>
             <p className="font-black text-3xl text-gray-800 mb-1">{match.score || '- -'}</p>
             
-            {/* Gözlemci Notu Rozeti Düzenlendi (Çift Skor Hatası Giderildi) */}
+            {/* Gözlemci Notu Rozeti*/}
             <div className="mb-3 flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded-md border border-blue-100 text-xs font-semibold">
               ⭐ Gözlemci Notu: {match.observerPoint || 8.4}
             </div>
